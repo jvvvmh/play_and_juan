@@ -5,12 +5,11 @@ Given $n$ non-negative integers representing an elevation map where the width of
 ```python
 class Solution:
     def trap(self, height: List[int]) -> int:
- 
         # 双指针. 只需知道 min(leftMax, rightMax)
         # 每次把不太行的那一根往前挪一挪
         # 100 3 5 20
         # 3 < 5 所以 leftMax <= rightMax
-        # 不然5后边的一定会被100打败, 100不会挪到3
+        # 不然5后边的20一定会被100打败, 100不会挪到3
         l = 0
         r = len(height) - 1
         leftMax = height[l]
@@ -50,8 +49,8 @@ class Solution:
         """
 
         """
-        O(n) 给出leftMax数组,
-        O(n) 遍历
+        # O(n) 给出leftMax数组,
+        # O(n) 遍历
         # max( min(leftMax, rightMax) - height[i], 0 )
         leftMax = [-1]
         for i in height:
@@ -60,6 +59,7 @@ class Solution:
         rightMax = [-1]
         for i in height[::-1]:
             rightMax.append( max(rightMax[-1], i) )
+        rightMax = rightMax[1:]
         res = 0
         n = len(height)
         for i in range(n):
