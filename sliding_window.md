@@ -186,5 +186,29 @@ class Solution:
         swap(nums, 0, len(nums))
         swap(nums, 0, k)
         swap(nums, k, len(nums))
+        
+```
+
+#### [209. Minimum Size Subarray Sum](https://leetcode.cn/problems/minimum-size-subarray-sum/)
+
+```python
+class Solution:
+    def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        # 移动 r 直到 >= target
+        # 移动 l 直到快要 <  target
+        l = 0
+        s = 0
+        res = 10 ** 5 + 10
+        for r in range(len(nums)):
+            s += nums[r]
+            if s >= target:
+                if nums[r] >= target:
+                    return 1
+                else:
+                    while s - nums[l] >= target: # 恰好不能再减nums[l]啦
+                        s -= nums[l]
+                        l += 1
+                    res = min(res, r - l + 1)
+        return 0 if res == 10 ** 5 + 10 else res
 ```
 
