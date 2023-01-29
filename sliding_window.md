@@ -114,3 +114,34 @@ class Solution:
         return s[res[0]: res[1] + 1]
 ```
 
+
+
+#### [159. Longest Substring with At Most Two Distinct Characters](https://leetcode.cn/problems/longest-substring-with-at-most-two-distinct-characters/)
+
+```python
+class Solution:
+    def lengthOfLongestSubstringTwoDistinct(self, s: str) -> int:
+        v = {}
+        l = 0
+        res = 0
+        for r in range(len(s)):
+            newChar = s[r]
+            if newChar in v:
+                v[newChar] += 1
+            else:
+                if len(v) == 0:
+                    v[newChar] = 1
+                elif len(v) == 1:
+                    v[newChar] = 1
+                else:
+                    # 已经有了两个, 要pop掉第一个
+                    while len(v) == 2:
+                        v[s[l]] -= 1
+                        if v[s[l]] == 0:
+                            v.pop(s[l])
+                        l += 1
+                    v[s[r]] = 1
+            res = max(res, r - l + 1)
+        return res
+```
+
