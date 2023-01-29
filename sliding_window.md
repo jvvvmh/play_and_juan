@@ -191,6 +191,8 @@ class Solution:
 
 #### [209. Minimum Size Subarray Sum](https://leetcode.cn/problems/minimum-size-subarray-sum/)
 
+Given an array of positive integers nums and a positive integer target, return the **minimal length of a subarray** whose sum >= target.
+
 ```python
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
@@ -210,5 +212,24 @@ class Solution:
                         l += 1
                     res = min(res, r - l + 1)
         return 0 if res == 10 ** 5 + 10 else res
+```
+
+#### [219. Contains Duplicate II](https://leetcode.cn/problems/contains-duplicate-ii/)
+
+Exist two distinct indices i and j such that nums[i] == nums[j] and abs(i - j) <= k?
+
+```python
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        n = len(nums)
+        v = set()
+        k = min(k, n - 1) 
+        for i in range(n):
+            if i > k:
+                v.remove(nums[i - k - 1])
+            if nums[i] in v:
+                return True
+            v.add(nums[i])
+        return False
 ```
 
