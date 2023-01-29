@@ -145,3 +145,46 @@ class Solution:
         return res
 ```
 
+#### [189. Rotate Array](https://leetcode.cn/problems/rotate-array/)
+
+Rotate the array to the right by k steps. $O(n)$
+
+greatest common divisor
+
+```python
+class Solution:
+    def rotate(self, nums: List[int], k: int) -> None:
+        """
+        n = len(nums)
+        k = k % n
+        s = 0
+        for st_idx in range(n):
+            i = st_idx
+            carry = nums[i]
+            while True:
+                if (i + k) % n == st_idx:
+                    nums[st_idx] = carry
+                    s += 1
+                    break
+                tmp = nums[(i + k) % n]
+                nums[(i + k) % n] = carry
+                carry = tmp
+                i = (i + k) % n
+                s += 1
+            # 回到了 st_idx
+            if s == n:
+                return
+        """
+        n = len(nums)
+        k = k % n
+        # 翻转整个数组
+        def swap(nums, st, ed):
+            for i in range(st, (st + ed) // 2):
+                tmp = nums[i]
+                nums[i] = nums[(st + ed - 1) - i]
+                nums[(st + ed - 1) - i ] = tmp
+        swap(nums, 0, len(nums))
+        swap(nums, 0, k)
+        swap(nums, k, len(nums))
+```
+
