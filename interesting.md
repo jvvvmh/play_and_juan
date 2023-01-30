@@ -1,3 +1,26 @@
+#### [11. Container With Most Water](https://leetcode.cn/problems/container-with-most-water/)
+
+Find two lines such that the container |__| contains the most water.
+
+两边到中间收缩, 每次移动短板 (drop out cases which are not better than the current)
+
+```python
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        l = 0
+        r = len(height) - 1
+        res = 0
+        while l <= r - 1:
+            res = max(res, min(height[l], height[r]) * (r - l))
+            # 移动短板
+            if height[l] <= height[r]:
+                l += 1
+            else:
+                r -= 1
+        return res
+
+```
+
 #### [42. Trapping Rain Water](https://leetcode.cn/problems/trapping-rain-water/) 双指针/单调栈/前后DP
 
 Given $n$ non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
