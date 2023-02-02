@@ -1,3 +1,31 @@
+#### [15. 3Sum ](https://leetcode.cn/problems/3sum/) 排序 + 双指针
+
+Must not contain duplicate triplets. $O(N^2)$
+
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums = sorted(nums)
+        n = len(nums)
+        last_i, last_j = 10**6, 10**6
+        for i in range(n):
+            if nums[i] == last_i: continue
+            last_i = nums[i]
+            for j in range(i + 1, n - 1):
+                if nums[j] == last_j: continue
+                last_j = nums[j]
+                s = nums[i] + nums[j]
+                k = n - 1
+                while (k >= j + 2 and s + nums[k] > 0):
+                    k -= 1
+                if s + nums[k] == 0:
+                    res.append([nums[i], nums[j], nums[k]])
+        return res
+```
+
+
+
 #### [3. Longest Substring Without Repeating Characters](https://leetcode.cn/problems/longest-substring-without-repeating-characters/)
 
 ```python
