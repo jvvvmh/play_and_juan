@@ -1,3 +1,39 @@
+[TOC]
+
+
+
+#### [16. 3Sum Closest](https://leetcode.cn/problems/3sum-closest/)
+
+Return *the sum of the three integers*.
+
+```python
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        diff = 10**5
+        res = 0
+        n = len(nums)
+        nums.sort()
+        for i in range(n - 2):
+            j = i + 1
+            k = n - 1
+            while j < k:
+                s = nums[i] + nums[j] + nums[k]
+                if abs(s - target) < diff:
+                    diff = abs(s - target)
+                    res = s
+        
+                if s == target:
+                    return target
+                elif s > target:
+                    k -= 1
+                else:
+                    j += 1
+
+        return res
+```
+
+
+
 #### [11. Container With Most Water](https://leetcode.cn/problems/container-with-most-water/)
 
 Find two lines such that the container |__| contains the most water.
