@@ -1,3 +1,47 @@
+#### [18. 4Sum](https://leetcode.cn/problems/4sum/) 排序 + 两重循环 + 双指针
+
+```python
+class Solution:
+    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+        nums.sort()
+        res = []
+        n = len(nums)
+        print(nums)
+        inf = 10**9 + 10
+        prev_i = inf
+        prev_j = inf
+        prev_k = inf
+        prev_l = inf
+        for i in range(n - 3):
+            if nums[i] == prev_i: continue
+            if nums[i] * 4 > target: breask
+            prev_i = nums[i]
+            for j in range(i + 1, n - 2):
+                if nums[j] == prev_j: continue
+                if nums[i] + nums[j] * 3 > target: break
+                prev_j = nums[j]
+                k = j + 1
+                l = n - 1
+                while k < l:
+                    s = nums[i] + nums[j] + nums[k] + nums[l] - target
+                    if s == 0:
+                        if nums[k] != prev_k:
+                            prev_k = nums[k]
+                            prev_l = nums[l]
+                            res.append([nums[i], nums[j], nums[k], nums[l]])
+                        k += 1
+                        l -= 1
+                    elif s > 0:
+                        l -= 1
+                    else:
+                        k += 1
+                prev_k, prev_l = inf, inf
+            prev_j = inf
+        return res
+```
+
+
+
 #### [15. 3Sum ](https://leetcode.cn/problems/3sum/) 排序 + 双指针
 
 Must not contain duplicate triplets. $O(N^2)$
