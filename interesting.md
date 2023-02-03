@@ -1,5 +1,25 @@
 [TOC]
 
+#### [19. Remove Nth Node From End of List](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/) 快慢指针
+
+创建一个dummy指针指向head. 快指针先走n步, 一起走到链表末尾, 慢指针就是to remove的前驱节点.
+
+```python
+class Solution:
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        # () 1 2 3 4 5 6 7
+        #            *   *
+        dummy = ListNode(0, head)
+        l, r = dummy, dummy
+        for _ in range(n):
+            r = r.next
+        while r.next is not None:
+            l = l.next
+            r = r.next
+        l.next = l.next.next
+        return dummy.next
+```
+
 
 
 #### [16. 3Sum Closest](https://leetcode.cn/problems/3sum-closest/)
