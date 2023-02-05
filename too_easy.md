@@ -1,3 +1,27 @@
+#### [24. Swap Nodes in Pairs](https://leetcode.cn/problems/swap-nodes-in-pairs/)
+
+Given a linked list, swap every two adjacent nodes and return its head.
+
+```python
+class Solution:
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        dummy = ListNode(next=head)
+        tmp = dummy
+        while tmp.next and tmp.next.next:
+            thisPairSt = tmp.next
+            thisPairEd = thisPairSt.next
+
+            thisPairSt.next = thisPairEd.next
+            thisPairEd.next = thisPairSt
+            tmp.next = thisPairEd
+
+            tmp = thisPairSt
+
+        return dummy.next
+```
+
+
+
 #### [23. Merge k Sorted Lists](https://leetcode.cn/problems/merge-k-sorted-lists/)
 
 时间 $O(kn \log(k))$  空间 $O(\log(k))$
