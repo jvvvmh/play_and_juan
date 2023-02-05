@@ -1,3 +1,48 @@
+#### [25. Reverse Nodes in k-Group](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
+
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if k == 1:
+            return head
+        dummy = ListNode(next=head)
+        p1 = dummy
+        while True:
+            p2 = p1
+            if not p1: break
+            for _ in range(k):
+                if p2.next:
+                    p2 = p2.next
+                else: 
+                    return dummy.next
+
+            nextSt = p2.next
+            thisSt = p1.next
+            
+            prev = p1.next
+            tmp = p1.next.next
+            # thisSt <- ... < thisEd
+            for _ in range(k - 1):
+                nextTmp = tmp.next
+                tmp.next = prev
+                prev = tmp
+                tmp = nextTmp
+
+            p1.next = p2
+            thisSt.next = nextSt
+
+            p1 = thisSt
+
+        return dummy.next
+```
+
+
+
 #### [24. Swap Nodes in Pairs](https://leetcode.cn/problems/swap-nodes-in-pairs/)
 
 Given a linked list, swap every two adjacent nodes and return its head.
@@ -83,5 +128,22 @@ class Solution:
         elif p2:
             tmp.next = p2
         return dummy.next
+```
+
+
+
+#### [26. Remove Duplicates from Sorted Array](https://leetcode.cn/problems/remove-duplicates-from-sorted-array/)
+
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        idx = -1
+        prev = 999
+        for n in nums:
+            if n != prev:
+                idx += 1
+                nums[idx] = n
+                prev = n
+        return idx + 1
 ```
 
