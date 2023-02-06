@@ -1,5 +1,54 @@
 
 
+#### [29. Divide Two Integers](https://leetcode.cn/problems/divide-two-integers/)
+
+**32-bit** signed integer range. round to zero.
+
+```python
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        if (dividend == 0) {
+            return 0;
+        }
+
+        bool s = (dividend > 0 && divisor > 0) || (dividend < 0 and divisor < 0);
+
+        int res = 0;
+        if (divisor == INT_MIN) {
+            return dividend == INT_MIN ? s * 1 : 0;
+        }
+        
+        if (dividend == INT_MIN) {
+            if (divisor == 1) { return dividend; }
+            if (divisor == -1 ) {return INT_MAX; }
+            dividend += abs(divisor);
+            res += 1;
+        }
+        divisor = abs(divisor);
+        dividend = abs(dividend);
+        /*
+        while (dividend - divisor >= 0) {
+            dividend -= divisor;
+            res += 1;
+        } */
+        int thre = INT_MAX / 2;
+        while (dividend >= divisor) {
+            int key = divisor;
+            int tmp = 1;
+            while (dividend >= (key << 1) && key <= thre) {
+                key =  key << 1;
+                tmp = tmp << 1;
+            }
+                
+            dividend -= key;
+            res += tmp;
+        }
+        return s ? res : -res;
+    }
+};
+```
+
 
 
 #### [7. Reverse Integer](https://leetcode.cn/problems/reverse-integer/)
