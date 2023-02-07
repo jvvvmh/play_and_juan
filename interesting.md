@@ -1,5 +1,48 @@
 [TOC]
 
+
+
+#### [31. Next Permutation](https://leetcode.cn/problems/next-permutation/)
+
+2 (1) [5] 4 3 0
+
+1. 找到下降的 head [5] (如果是 nums[0] 则之间翻转)
+2. 把 1 和后面最小的但比 1 大的数字 3 交换, 得到 2 3 [5] 3 1 0
+3. [5] 3 1 0 翻转
+
+```python
+class Solution:
+    def nextPermutation(self, nums: List[int]) -> None:
+        if len(nums) == 0: return
+        i = len(nums) - 1
+        while (i >= 1 and nums[i - 1] >= nums[i]):
+            i -= 1
+        if i == 0:
+            l = 0
+            r = len(nums) - 1
+            while l < r:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
+        else:
+            j = i
+            while nums[j] > nums[i - 1]:
+                if j == len(nums) - 1 or nums[j + 1] <= nums[i - 1]:
+                    break
+                j += 1
+            nums[i - 1], nums[j] = nums[j], nums[i - 1]
+            # from i to len(nums) - 1, reverse
+            l = i
+            r = len(nums) - 1
+            while l < r:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
+
+```
+
+
+
 #### [19. Remove Nth Node From End of List](https://leetcode.cn/problems/remove-nth-node-from-end-of-list/) 快慢指针
 
 创建一个dummy指针指向head. 快指针先走n步, 一起走到链表末尾, 慢指针就是to remove的前驱节点.
