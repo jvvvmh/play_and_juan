@@ -2,6 +2,55 @@
 
 
 
+#### [32. Longest Valid Parentheses](https://leetcode.cn/problems/longest-valid-parentheses/)
+
+- bi-directional $O(n)$ time, $O(1)$ space
+- dp[i] 以 i 结尾的最大长度 $O(n)$ space
+- stack. bottom is the rightmost unmatched ')' index, initialize with -1
+
+```python
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        # () ((()   ()))   )
+        res = 0
+        l, r = 0, 0
+        curr_l, curr_r = 0, 0
+        while r <= len(s) - 1:
+            if s[r] == '(':
+                curr_l += 1
+                r += 1
+            else:
+                # 右括号
+                if curr_r == curr_l:
+                    curr_l, curr_r = 0, 0
+                    l, r = r + 1, r + 1
+                else:
+                    curr_r += 1
+                    if curr_l == curr_r:
+                        res = max(res, curr_l * 2)
+                    r += 1
+        if curr_l == curr_r: return res
+    
+        l, r = len(s) - 1, len(s) - 1
+        curr_l, curr_r = 0, 0
+        while l >= 0:
+            if s[l] == ')':
+                curr_r += 1
+                l -= 1
+            else:
+                if curr_r == curr_l:
+                    curr_l, curr_r = 0, 0
+                    l, r = l - 1, l - 1
+                else:
+                    curr_l += 1
+                    if curr_l == curr_r:
+                        res = max(res, curr_l * 2)
+                    l -= 1
+        return res
+```
+
+
+
 #### [31. Next Permutation](https://leetcode.cn/problems/next-permutation/)
 
 2 (1) [5] 4 3 0
