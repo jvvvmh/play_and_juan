@@ -1,3 +1,54 @@
+
+
+#### [33. Search in Rotated Sorted Array](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
+
+find the place of target in `[4,5,6,7,0,1,2]`  (rotate at index 5)
+
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> int:
+        l = 0
+        r = len(nums) - 1
+        offset = 0
+
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] < nums[0]:
+                r = m
+            elif nums[m] > nums[0]:
+                l = m + 1
+            else:
+                offset = 0 if nums[0] < nums[1] else 1
+                break
+        
+        if l == r:
+            if nums[l] > nums[0]:
+                offset = 0
+            else:
+                offset = l
+
+        def getNewIdx(i):
+            return (i + offset) % len(nums)
+        
+        l = 0
+        r = len(nums) - 1
+        find = -1
+        while l <= r:
+            m = (l + r) // 2
+            newIdx = getNewIdx(m)
+            if nums[newIdx] == target:
+                find = newIdx
+                break
+            elif nums[newIdx] > target:
+                r = m - 1
+            else:
+                l = m + 1
+
+        return find
+```
+
+
+
 #### [25. Reverse Nodes in k-Group](https://leetcode.cn/problems/reverse-nodes-in-k-group/)
 
 ```python
