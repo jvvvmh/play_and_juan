@@ -1,3 +1,79 @@
+#### [35. Search Insert Position](https://leetcode.cn/problems/search-insert-position/)
+
+the index where the target can be inserted into the sorted arr of distinct integers
+
+```python
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) - 1
+        # l <= x <= r
+        while l <= r - 1:
+            mid = (l + r) // 2
+            if nums[mid] > target:
+                r = mid - 1
+            elif nums[mid] < target:
+                l = mid + 1
+            else:
+                return mid
+        # 此时 l == r
+        if nums[l] >= target:
+            return l
+        return l + 1
+```
+
+
+
+#### [34. Find First and Last Position of Element in Sorted Array](https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+```python
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        n = len(nums)
+        l, r = 0, n - 1
+        find = -1
+        while l <= r:
+            m = (l + r) // 2
+            if nums[m] > target:
+                r = m - 1
+            elif nums[m] == target:
+                find = m
+                break
+            else:
+                l = m + 1
+        if find == -1:
+            return [-1, -1]
+        
+        # 找到 find 左边 第一个比 target 小的位置
+        # 找到 find 右边 第一个比 target 大的位置
+        leftSt = -1
+        l, r = 0, find
+        if find == 0:
+            leftSt = 0
+        else:
+            while l <= r - 2:
+                m = (l + r) // 2
+                if nums[m] == target:
+                    r = m
+                else:
+                    l = m
+            leftSt = r if nums[l] != target else l
+
+        rightEd = -1
+        l, r = find, n - 1
+        if find == n - 1:
+            rightEd = n - 1
+        else:
+            while l <= r - 2:
+                m = (l + r) // 2
+                if nums[m] == target:
+                    l = m
+                else:
+                    r = m
+            rightEd = l if nums[r] != target else r
+
+        return [leftSt, rightEd]
+```
+
 
 
 #### [33. Search in Rotated Sorted Array](https://leetcode.cn/problems/search-in-rotated-sorted-array/)
