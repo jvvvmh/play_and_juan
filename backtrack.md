@@ -32,6 +32,59 @@ class Solution:
 
 
 
+#### [37. Sudoku Solver](https://leetcode.cn/problems/sudoku-solver/)
+
+```python
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        row = [0] * 9
+        col = [0] * 9
+        sub = [0] * 9
+
+        target = 0
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] != '.':
+                    tmp = int(board[i][j])
+                    row[i] |= (1 << tmp)
+                    col[j] |= (1 << tmp)
+                    idx = 3 * (i // 3) + j // 3
+                    sub[idx] |= (1 << tmp)
+                    target += 1
+        target = 81 - target
+
+        def getNext(i, j):
+            if j <= 7:
+                return i, j + 1
+            return i + 1, 0
+
+        def f(i, j, t):
+            if t == 0:
+                return True
+            ni, nj = getNext(i, j)
+            if board[i][j] != '.':
+                return f(ni, nj, t)
+
+            # 枚举 1->9
+            for x in range(1, 10):
+                if row[i] & (1 << x) == 0 and col[j] & (1 << x) == 0 and sub[3 * (i // 3) + j // 3] & (1 << x) == 0:
+                    board[i][j] = str(x)
+                    row[i] |= 1 << x
+                    col[j] |= 1 << x
+                    sub[3 * (i // 3) + j // 3] |= 1 << x
+                    if f(ni, nj, t - 1):
+                        return True
+                    else:
+                        board[i][j] = '.'
+                        row[i] -= (1 << x)
+                        col[j] -= (1 << x)
+                        sub[3 * (i // 3) + j // 3] -= (1 << x)
+            return False
+        f(0, 0, target)
+```
+
+
+
 #### [17. Letter Combinations of a Phone Number](https://leetcode.cn/problems/letter-combinations-of-a-phone-number/)
 
 ```
