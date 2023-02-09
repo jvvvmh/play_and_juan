@@ -274,3 +274,35 @@ class Solution:
         return idx + 1
 ```
 
+
+
+#### [36. Valid Sudoku](https://leetcode.cn/problems/valid-sudoku/)
+
+```python
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        n = len(board)
+        row = [0] * n
+        col = [0] * n
+        sub = [0] * n
+        for i in range(n):
+            for j in range(n):
+                tmp = board[i][j]
+                if tmp != '.':
+                    tmp = int(tmp)
+                    if row[i] & (1 << tmp):
+                        return False
+                    else:
+                        row[i] |= (1 << tmp)
+                    if col[j] & (1 << tmp):
+                        return False
+                    else:
+                        col[j] |= (1 << tmp)
+                    idx = i // 3 * 3 + j // 3
+                    if sub[idx] & (1 << tmp):
+                        return False
+                    else:
+                        sub[idx] |= (1 << tmp)
+        return True
+```
+
