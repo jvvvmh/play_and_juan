@@ -32,6 +32,71 @@ class Solution:
 
 
 
+#### [40. Combination Sum II](https://leetcode.cn/problems/combination-sum-ii/)
+
+```python
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        res = []
+        tmp = []
+        freq = Counter(candidates)
+        candidates = list(freq.keys())
+        
+        def f(idx, curr):
+            nonlocal tmp
+            nonlocal res
+            if curr == target:
+                res.append(tmp.copy())
+                return
+            if idx == len(candidates):
+                return
+
+            f(idx + 1, curr)
+            cnt = 0
+            for _ in range(1, freq[candidates[idx]] + 1):
+                if curr + candidates[idx] > target:
+                    break
+                cnt += 1
+                curr += candidates[idx]
+                tmp.append(candidates[idx])
+                f(idx + 1, curr)
+            if cnt != 0:
+                tmp = tmp[:-cnt]
+
+        f(0, 0)
+        return res
+```
+
+
+
+#### [39. Combination Sum](https://leetcode.cn/problems/combination-sum/)
+
+```python
+class Solution:
+    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        res = []
+        tmp = []
+        def f(idx, curr, res):
+            if curr == target:
+                res.append(tmp.copy())
+                return res
+            if idx >= len(candidates):
+                return res
+            for i in range(idx, len(candidates)):
+                if curr + candidates[i] > target:
+                    break
+                curr += candidates[i]
+                tmp.append(candidates[i])
+                res = f(i, curr, res)
+                tmp.pop()
+                curr -= candidates[i]
+            return res
+        return f(0, 0, res)
+```
+
+
+
 #### [37. Sudoku Solver](https://leetcode.cn/problems/sudoku-solver/)
 
 ```python

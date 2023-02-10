@@ -1,5 +1,27 @@
 [TOC]
 
+#### [41. First Missing Positive](https://leetcode.cn/problems/first-missing-positive/)
+
+Return the smallest missing positive integer. O(n) time and uses constant extra space.
+
+```python
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        # 消失的正数为1,2,3...,n或者n+1
+        # 1到n之间, 存不存在可以用i-1位置是否为负数表示
+        n = len(nums)
+        for i in range(len(nums)): # 所以先把所有人变成+的
+            if nums[i] <= 0:
+                nums[i] = n + 1
+        for i in range(len(nums)):
+            if abs(nums[i]) <= n: # 把那个位置变成负数
+                nums[abs(nums[i]) - 1] = -abs(nums[abs(nums[i]) - 1])
+        for i in range(len(nums)): # 第一个正数在位置i, 说明i+1没遇过
+            if nums[i] > 0:
+                return i + 1
+        return n + 1
+```
+
 
 
 #### [32. Longest Valid Parentheses](https://leetcode.cn/problems/longest-valid-parentheses/)
