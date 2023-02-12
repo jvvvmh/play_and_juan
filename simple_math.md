@@ -1,3 +1,28 @@
+
+
+#### [50. Pow(x, n)](https://leetcode.cn/problems/powx-n/)
+
+```python
+class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        # x ^ n, where n = 2^0 + 2^1 + 2^2 + ... + (?) 2^k
+        # x^1 * x^2 * x^4 ... * (?)x^{2^k} 
+        if n < 0:
+            x = 1.0 / x
+            n = -n
+        res = 1.0
+        tmp = x
+        while n > 0:
+            if n % 2:
+                res *= tmp
+            tmp *= tmp
+            n = n >> 1
+        return res
+        
+```
+
+
+
 #### [48. Rotate Image](https://leetcode.cn/problems/rotate-image/)
 
 rotate the image by **90** degrees (clockwise).
