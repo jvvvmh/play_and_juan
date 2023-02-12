@@ -1,3 +1,38 @@
+#### [44. Wildcard Matching](https://leetcode.cn/problems/wildcard-matching/)
+
+```python
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        # (1) char
+        # (2) * 如果用了它, s[i-1] j继续保留; 也可以不用
+        dp = [[False] * (len(p) + 1) for _ in range(len(s) + 1)]
+        dp[0][0] = True
+
+        def isEqual(x, y):
+            if p[y] == '?':
+                return True
+            else:
+                return s[x] == p[y]
+
+        for i in range(len(s) + 1):
+            for j in range(len(p) + 1):
+                if j == 0: continue
+                # 更新dp[i][j]
+                if p[j - 1] != '*':
+                    if i >= 1 and isEqual(i - 1, j - 1):
+                        dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    # 可以使用 '*'
+                    if i >= 1:
+                        dp[i][j] |= dp[i - 1][j]
+                    # 可以抛弃 '*'
+                    dp[i][j] |= dp[i][j - 1]
+
+        return dp[len(s)][len(p)]
+```
+
+
+
 #### [10. Regular Expression Matching](https://leetcode.cn/problems/regular-expression-matching/)
 
 String s and a pattern p, implement regular expression matching with support for '.' and '*' where:
@@ -41,5 +76,25 @@ class Solution:
                         f[x][y] = f[x - 1][y - 1]
             
         return f[len(s)][len(p)]
+```
+
+
+
+#### [53. Maximum Subarray](https://leetcode.cn/problems/maximum-subarray/)
+
+Subarry with max sum.
+
+```C++
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int res = nums[0], prev = 0;
+        for (auto &i : nums) {
+            prev = prev > 0 ? prev + i : i;
+            res = max(res, prev);
+        }
+        return res;
+    }
+};
 ```
 

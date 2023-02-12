@@ -1,3 +1,24 @@
+
+
+#### [49. Group Anagrams](https://leetcode.cn/problems/group-anagrams/)
+
+`Output: [["bat"],["nat","tan"],["ate","eat","tea"]]`
+
+```python
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        mp = collections.defaultdict(list)
+        for s in strs:
+            cnt = [0] * 26 # 第 i 位表示那个字母出现了几次
+            for ch in s:
+                cnt[ord(ch) - ord("a")] += 1
+            mp[tuple(cnt)].append(s)
+        return list(mp.values())
+
+```
+
+
+
 #### [35. Search Insert Position](https://leetcode.cn/problems/search-insert-position/)
 
 the index where the target can be inserted into the sorted arr of distinct integers

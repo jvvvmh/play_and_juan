@@ -1,5 +1,67 @@
 [TOC]
 
+#### [45. Jump Game II](https://leetcode.cn/problems/jump-game-ii/)
+
+`nums[i]` 表示 从下标 `i` 可以跳跃的范围. 从开始跳到结束的最短step. O(n) time.
+
+```python
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        // a b1b2b3 c3c1c2 END
+        // 如果bi不能到END 那么还需要ci
+        // 所以只在乎能到达bi后面的最远距离
+        // 那么跳到哪个bi以后会比较好?
+        // (b3, c2] cover了 (b3, c3或者c1)
+        int step = 0;
+        int i = 0;
+        while (i < nums.size() - 1) {
+            if (i + nums[i] >= nums.size() - 1) {
+                step += 1;
+                break;
+            }
+            int nextPlace = -1;
+            int maxDist = -1;
+            for (int inc = 1; inc <= nums[i]; ++inc) {
+                if (inc + nums[i + inc] > maxDist) {
+                    maxDist = inc + nums[i + inc];
+                    nextPlace = i + inc;
+                }
+            }
+            i = nextPlace;
+            step += 1;
+        }
+        return step;
+
+        /*
+        deque<pair<int, int>> q;
+        vector<int> visited = vector<int>(nums.size(), INT_MAX);
+        q.push_back(make_pair(0, 0));
+        while (!q.empty()) {
+            int curr = q.front().first;
+            int step = q.front().second;
+            q.pop_front();
+            if (visited[curr] <= step) continue;
+            visited[curr] = step;
+            if (curr == nums.size() - 1) {
+                break;
+            }
+            for (int j = 1; j <= nums[curr]; ++j) {
+                int nextPlace = curr + j;
+                if (nextPlace >= nums.size()) break;
+                q.push_back(make_pair(nextPlace, step + 1));
+            }
+        }
+        return visited[nums.size() - 1];
+        */
+    }
+};
+```
+
+
+
+
+
 #### [41. First Missing Positive](https://leetcode.cn/problems/first-missing-positive/)
 
 Return the smallest missing positive integer. O(n) time and uses constant extra space.
