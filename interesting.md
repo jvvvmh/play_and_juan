@@ -1,5 +1,56 @@
 [TOC]
 
+#### [56. Merge Intervals](https://leetcode.cn/problems/merge-intervals/)
+
+```python
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        res = []
+        intervals = sorted(intervals, key=lambda x: x[0])
+        st, ed = intervals[0]
+        for i, j in intervals[1:]:
+            if i <= ed:
+                ed = max(ed, j)
+            else:
+                res.append([st, ed])
+                st, ed = i, j
+        if len(res) == 0 or res[-1][0] != st:
+            res.append([st, ed])
+        return res
+```
+
+
+
+#### [55. Jump Game](https://leetcode.cn/problems/jump-game/)
+
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        maxPos = 0
+        for i in range(len(nums)):
+            if maxPos < i: return False
+            maxPos = max(maxPos, nums[i] + i)
+            if maxPos >= len(nums) - 1: return True
+        return False
+        """
+        # a b1 b2 (c1)b3  (c3)c2
+        curr = 0
+        while curr < len(nums) - 1 and nums[curr] > 0:
+            nextPos, maxPos = 0, -1
+            if curr + nums[curr] >= len(nums) - 1:
+                return True
+            for j in range(1, nums[curr] + 1):
+                tmp = nums[j + curr] + j + curr
+                if tmp > maxPos:
+                    maxPos = tmp
+                    nextPos = j + curr
+            curr = nextPos
+        return curr == len(nums) - 1
+        """
+```
+
+
+
 #### [45. Jump Game II](https://leetcode.cn/problems/jump-game-ii/)
 
 `nums[i]` 表示 从下标 `i` 可以跳跃的范围. 从开始跳到结束的最短step. O(n) time.

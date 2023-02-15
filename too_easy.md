@@ -1,5 +1,44 @@
 
 
+#### [54. Spiral Matrix](https://leetcode.cn/problems/spiral-matrix/)
+
+```python
+class Solution:
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        # 12
+        # 34
+
+        #  a 
+        # d b
+        #  c   
+        res = []
+        a = 0
+        b = len(matrix[0]) - 1
+        c = len(matrix) - 1
+        d = 0
+        while True:
+            for i in range(d, b + 1):
+                res.append(matrix[a][i])
+            a += 1
+            if a > c: break
+            for i in range(a, c + 1):
+                res.append(matrix[i][b])
+            b -= 1
+            if b < d: break
+            for i in range(b, d - 1, -1):
+                res.append(matrix[c][i])
+            c -= 1
+            if a > c: break
+            for i in range(c, a - 1, -1):
+                res.append(matrix[i][d])
+            d += 1
+            if b < d: break
+        return res
+
+```
+
+
+
 #### [49. Group Anagrams](https://leetcode.cn/problems/group-anagrams/)
 
 `Output: [["bat"],["nat","tan"],["ate","eat","tea"]]`
