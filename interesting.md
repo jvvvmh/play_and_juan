@@ -1,5 +1,43 @@
 [TOC]
 
+#### [60. Permutation Sequence](https://leetcode.cn/problems/permutation-sequence/)
+
+$k^{th}$ permutation
+
+```python
+class Solution:
+    def getPermutation(self, n: int, k: int) -> str:
+        # 4*3*2*1=24种
+        # 1开头,2开头, 3开头, 4开头. 每组3*2*1=6个
+        # 求第8个
+        # 8//6=1(2), 第一组, 第二个
+        # 第一组 (1, 3, 4)
+        # 每个小组 2*1=2个
+        # 求第二个
+        # 2//2=1 或者说 0余下2
+        # 在第0组, 第2个
+        # 3开头, 4开头第二个
+        # 
+        a = list(range(1, n + 1))
+        f = [1] * (n + 1) # 阶乘
+        for i in range(2, n + 1):
+            f[i] = f[i - 1] * i
+
+        res = ""
+        for t in range(n, 0, -1):
+            sizeGroup = f[t - 1]
+            nGroup, offset = k // sizeGroup, k % sizeGroup
+            if offset == 0:
+                nGroup -= 1
+                offset = sizeGroup
+            res += str(a[nGroup])
+            a.pop(nGroup)
+            k = offset
+        return res
+```
+
+
+
 #### [56. Merge Intervals](https://leetcode.cn/problems/merge-intervals/)
 
 ```python

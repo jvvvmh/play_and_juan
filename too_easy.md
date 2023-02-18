@@ -1,5 +1,78 @@
 
 
+
+
+#### [59. Spiral Matrix II](https://leetcode.cn/problems/spiral-matrix-ii/)
+
+顺时针填数字
+
+```python
+class Solution:
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        # a a a a
+        # a b b a
+        # a b b a
+        # a a a a
+        cnt = 1
+        res = [[0] * n for _ in range(n)]
+        for t in range(n // 2):
+            # 左上角 (t, t) 循环四次
+            for j in range(t, n - t - 1):
+                res[t][j] = cnt
+                cnt += 1
+            for i in range(t, n - t - 1):
+                res[i][n - t - 1] = cnt
+                cnt += 1
+            for j in range(n - t - 1, t, -1):
+                res[n - t - 1][j] = cnt
+                cnt += 1
+            for i in range(n - t - 1, t, -1):
+                res[i][t] = cnt
+                cnt += 1
+        if n % 2:
+            res[n // 2][n // 2] = cnt
+        return res
+
+```
+
+
+
+#### [57. Insert Interval](https://leetcode.cn/problems/insert-interval/)
+
+given an array of non-overlapping intervals sorted in ascending order by $start_i$. insert newInterval.
+
+```python
+class Solution:
+    def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
+        if len(intervals) == 0:
+            return [newInterval]
+        # left fast in, right slow out
+        i = 0
+        while intervals[i][1] < newInterval[0]:
+            i += 1
+            if i == len(intervals):
+                intervals.append(newInterval)
+                return intervals
+    
+        j = len(intervals) - 1
+        while intervals[j][0] > newInterval[1]:
+            j -= 1
+            if j == -1:
+                intervals = [newInterval] + intervals
+                return intervals
+ 
+        # 最后一次交错是和i和j
+        st = min(intervals[i][0], newInterval[0])
+        ed = max(intervals[j][1], newInterval[1])
+        res = []
+        res += intervals[:i]
+        res.append([st, ed])
+        res += intervals[j + 1:]
+        return res
+```
+
+
+
 #### [54. Spiral Matrix](https://leetcode.cn/problems/spiral-matrix/)
 
 ```python
