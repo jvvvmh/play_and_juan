@@ -1,3 +1,53 @@
+#### [63. Unique Paths II](https://leetcode.cn/problems/unique-paths-ii/)
+
+从左上到右下有多少种走法 (有障碍物)
+
+```python
+class Solution:
+    def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+        # dp[i][j] = dp[i - 1][j] + dp[i][j - 1] 如果他自己不是石头的话
+        dp = []
+        m, n = len(obstacleGrid), len(obstacleGrid[0])
+        for j in range(n):
+            if j == 0:
+                dp.append(1 - obstacleGrid[0][0])
+            else:
+                dp.append((1 - obstacleGrid[0][j]) & dp[-1])
+        for i in range(1, m):
+            for j in range(n):
+                if obstacleGrid[i][j] == 1:
+                    dp[j] = 0
+                else:
+                    if j >= 1:
+                        dp[j] = dp[j] + dp[j - 1]
+        return dp[-1]
+```
+
+
+
+#### [62. Unique Paths](https://leetcode.cn/problems/unique-paths/)
+
+从左上到右下有多少种走法
+
+```python
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        # dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+        # 1 1 1 1
+        # 1 2 3 4
+        # 1 3 6 10
+        dp = [1] * n
+        for i in range(m - 1):
+            for j in range(n):
+                if j == 0:
+                    dp[j] = 1
+                else:
+                    dp[j] += dp[j - 1]
+        return dp[-1]
+```
+
+
+
 #### [44. Wildcard Matching](https://leetcode.cn/problems/wildcard-matching/)
 
 ```python
