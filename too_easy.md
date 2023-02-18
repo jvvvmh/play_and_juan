@@ -1,5 +1,31 @@
 
 
+#### [61. Rotate List](https://leetcode.cn/problems/rotate-list/)
+
+rotate the list by `k` places.
+
+```python
+class Solution:
+    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if head is None: return head
+    
+        # 环
+        tail = head
+        n = 1
+        while tail.next:
+            tail = tail.next
+            n += 1
+        k = k % n
+        tail.next = head
+    
+        # 从head开始移动n-k-1步, 要断掉他和下一个 返回下一个
+        for _ in range(n - k - 1):
+            head = head.next
+        res = head.next
+        head.next = None
+        return res
+```
+
 
 
 #### [59. Spiral Matrix II](https://leetcode.cn/problems/spiral-matrix-ii/)
