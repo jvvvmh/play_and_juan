@@ -1,5 +1,101 @@
 
 
+
+
+#### [65. Valid Number](https://leetcode.cn/problems/valid-number/)  自动机
+
+at least one side of "." should be a digit
+
+```python
+from enum import Enum
+
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        # - 3 . 14 E - 15
+        State = Enum('State',[
+            'ST',
+            'INT_SIGN',
+            'INT',
+            'POINT',
+            'POINT_NO_INT',
+            'FRAC',
+            'E',
+            'E_SIGN',
+            'E_INT',
+        ])
+        CharType = Enum('CharType', [
+            'SIGN',
+            'DIGI',
+            'POINT',
+            'E',
+            'ILLEGAL'
+        ])
+        def toCharType(ch):
+            if ch.isdigit():
+                return CharType.DIGI
+            elif ch in ['+', '-']:
+                return CharType.SIGN
+            elif ch == '.':
+                return CharType.POINT
+            elif ch.lower() == 'e':
+                return CharType.E
+            else:
+                return CharType.ILLEGAL
+
+        trans = {
+            State.ST: {
+                CharType.SIGN: State.INT_SIGN,
+                CharType.POINT: State.POINT_NO_INT,
+                CharType.DIGI: State.INT,
+            },
+            State.INT_SIGN: {
+                CharType.DIGI: State.INT,
+                CharType.POINT: State.POINT_NO_INT,
+            },
+            State.INT: {
+                CharType.DIGI: State.INT,
+                CharType.POINT: State.FRAC,
+                CharType.E: State.E,
+            },
+            # 左侧有数字的小数点, 右侧可以没有数字
+            State.POINT: {
+                CharType.DIGI: State.FRAC,
+                CharType.E: State.E,
+            },
+            # 左侧没有数字的小数点, 右侧必须有数字
+            State.POINT_NO_INT: {
+                CharType.DIGI: State.FRAC,
+            },
+            # 过了小数点, 在小数部分里
+            State.FRAC: {
+                CharType.DIGI: State.FRAC,
+                CharType.E: State.E,
+            },
+            State.E: {
+                CharType.SIGN: State.E_SIGN,
+                CharType.DIGI: State.E_INT,
+            },
+            State.E_SIGN: {
+                CharType.DIGI: State.E_INT,
+            },
+            State.E_INT: {
+                CharType.DIGI: State.E_INT,
+            }
+        }
+        curr = State.ST
+        for ch in s:
+            chType = toCharType(ch)
+            # 从 curr state 经过 chType 转移到 next state
+            if chType not in trans[curr]:
+                return False
+            curr = trans[curr][chType]
+        return curr in [State.INT, State.POINT, State.FRAC, State.E_INT]
+```
+
+
+
+
+
 #### [29. Divide Two Integers](https://leetcode.cn/problems/divide-two-integers/)
 
 **32-bit** signed integer range. round to zero.
