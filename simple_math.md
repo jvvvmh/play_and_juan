@@ -1,5 +1,53 @@
 
 
+
+
+#### [69. Sqrt(x)](https://leetcode.cn/problems/sqrtx/) rounded down
+
+1. $\sqrt{x} = \exp^{0.5 \ln(x)}$
+2. binary search $O(\log(n))$
+3. newton $y=x^2 - C$ 初始在右边. $O( \log(n) )$ 二次收敛
+
+```python
+class Solution {
+public:
+    int mySqrt(int x) {
+        /*
+        if (x == 0) {
+            return 0;
+        }
+        int res = exp(0.5 * log(x))
+        return ((long long)(ans + 1) * (ans + 1) <= x ? ans + 1 : ans);
+        
+        int l = 0, r = x, res = -1;
+        while (l <= r) {
+            long mid = l + (r - l) / 2;
+            if (mid * mid <= x) {
+                res = mid;
+                l = mid + 1;
+            } else {
+                r = mid - 1;
+            }
+        }
+        return res;
+    
+        */
+        if (x == 0) return 0;
+        double prev = x;
+        while (true) {
+            double tmp = 0.5 * (prev + x / prev);
+            if (fabs(tmp - prev) < 1e-5) {
+                break;
+            }
+            prev = tmp;
+        }
+        return int(prev);
+    }
+};
+```
+
+
+
 #### [50. Pow(x, n)](https://leetcode.cn/problems/powx-n/)
 
 ```python
