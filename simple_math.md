@@ -2,6 +2,29 @@
 
 
 
+#### [70. Climbing Stairs](https://leetcode.cn/problems/climbing-stairs/)
+
+```python
+import numpy as np
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        def matrix_power(k):
+            f1 = np.array([[1, 1], [1, 0]])
+            if k == 0:
+                return np.array([[1, 0], [0, 1]])
+            if k == 1:
+                return f1
+            tmp = matrix_power(k // 2)
+            if k % 2:
+                return tmp @ tmp @ f1
+            else:
+                return tmp @ tmp
+        
+        return int((matrix_power(n - 1) @ np.array([1, 1]))[0])
+```
+
+
+
 #### [69. Sqrt(x)](https://leetcode.cn/problems/sqrtx/) rounded down
 
 1. $\sqrt{x} = \exp^{0.5 \ln(x)}$
