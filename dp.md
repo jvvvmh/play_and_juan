@@ -1,3 +1,49 @@
+
+
+
+
+#### [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
+
+```C++
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        // dp[0][0] = 0 下标表示长度
+        // 如果不相等, dp[i][j] = 1 + ?
+        // (1) insert, dp[i][j - 1] if j - 1 == 0, then give i
+        // (2) delete, dp[i - 1][j] if i - 1 == 0, then give j  
+        // (3) replace, dp[i - 1][j - 1]
+
+        int m = word1.size();
+        int n = word2.size();
+        vector<int> f(n + 1, 0);
+        for (int j = 0; j <= n; ++j) {
+            f[j] = j;
+            
+        }
+        
+        for (int i = 1; i <= m; ++i) {
+            vector<int> g(n + 1, INT_MAX);
+            g[0] = i;
+            for (int j = 1; j <= n; ++j) {
+                if (word1[i - 1] == word2[j - 1]) { // 注意这里是idx
+                    g[j] = f[j - 1];
+                } else {
+                    g[j] = min(g[j], 1 + g[j - 1]);
+                    g[j] = min(g[j], 1 + f[j]);
+                    g[j] = min(g[j], 1 + f[j - 1]);
+                }
+            }
+            f = move(g);
+        }
+
+        return f[n];
+    }
+};
+```
+
+
+
 #### [63. Unique Paths II](https://leetcode.cn/problems/unique-paths-ii/)
 
 从左上到右下有多少种走法 (有障碍物)
