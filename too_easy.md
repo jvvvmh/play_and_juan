@@ -1,3 +1,58 @@
+#### [73. Set Matrix Zeroes](https://leetcode.com/problems/set-matrix-zeroes/)
+
+```C++
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        // x[i][0] = 0 => row zero
+        // x[0][i] = 0 => col zero
+        bool col0 = false;
+        for (int i = 0; i < matrix.size(); ++i) {
+            for (int j = 0; j < matrix[0].size(); ++j) {
+                if ((matrix[i][j] == 0) && (j != 0)) {
+                    matrix[i][0] = 0;
+                    matrix[0][j] = 0;
+                    cout<<"         i"<<i<<endl;
+                    cout<<"           j"<<j<<endl;
+                } else if (matrix[i][j] == 0 && j == 0) {
+                    col0 = true;
+                }
+            }
+        }
+
+        for (int i = 1; i < matrix.size(); ++i) {
+            if (matrix[i][0] == 0) {
+                for (int j = 1; j < matrix[0].size(); ++j) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        for (int j = 0; j < matrix[0].size(); ++j) {
+            if (j && (matrix[0][j] == 0)) {
+                for (int i = 1; i < matrix.size(); ++i) {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+
+        // first row
+        if (matrix[0][0] == 0) {
+            for (int j = 1; j < matrix[0].size(); ++j) {
+                matrix[0][j] = 0;
+            }
+        }
+
+        // first col
+        if (col0) {
+            for (int i = 0; i< matrix.size(); ++i) {
+                matrix[i][0] = 0;
+            }
+        }
+    }
+};
+```
+
 
 
 #### [61. Rotate List](https://leetcode.cn/problems/rotate-list/)
