@@ -1,5 +1,23 @@
 
 
+#### [78. Subsets](https://leetcode.cn/problems/subsets/)
+
+```python
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        def f(i):
+            if i == len(nums):
+                return [[]]
+            tmp = f(i + 1)
+            n = len(tmp)
+            for x in range(n):
+                tmp.append(tmp[x] + [nums[i]])
+            return tmp
+        return f(0)
+```
+
+
+
 #### [22. Generate Parentheses](https://leetcode.cn/problems/generate-parentheses/)
 
 这不就是第 n 个 Cartalan number嘛. $C(2n,n) - C(2n,n-1) = \dfrac{1}{n+1}C(2n,n)$

@@ -1,5 +1,40 @@
 [TOC]
 
+#### [75. Sort Colors](https://leetcode.cn/problems/sort-colors/)
+
+sort a list of 0, 1, 2 in place
+
+```python
+class Solution:
+    def sortColors(self, nums: List[int]) -> None:
+        l, r = 0, len(nums) - 1
+
+        def swap(i, j):
+            tmp = nums[i]
+            nums[i] = nums[j]
+            nums[j] = tmp
+
+        i = 0
+        while i < len(nums):
+            if i > r:
+                break
+            if nums[i] == 0:
+                # 换到 leftPtr
+                swap(l, i)
+                l += 1
+
+            elif nums[i] == 2:
+                swap(r, i)
+                r -= 1
+
+            if (nums[i] == 0 and i != l - 1) or (nums[i] == 2 and i != r + 1):
+                i = i
+            else:
+                i += 1
+```
+
+
+
 #### [60. Permutation Sequence](https://leetcode.cn/problems/permutation-sequence/)
 
 $k^{th}$ permutation

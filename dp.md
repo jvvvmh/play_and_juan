@@ -1,5 +1,41 @@
 
 
+#### [77. Combinations](https://leetcode.cn/problems/combinations/)
+
+```python
+class Solution:
+    def combine(self, n: int, k: int) -> List[List[int]]:
+        x = [[] for _ in range(k + 1)]
+        x[0] = [0]
+        for i in range(1, n + 1):
+            if i < n - k:
+                for j in range(min(i, k), -1, -1):
+                    # 从上来+0
+                    # x[j] = [tmp << 1 for tmp in x[j]]
+                    for idx in range(len(x[j])):
+                        x[j][idx] = (x[j][idx] << 1)
+                    # 从左上来+1
+                    if j - 1 >= 0:
+                        # x[j] += [(tmp << 1) + 1 for tmp in x[j - 1]]
+                        for tmp in x[j - 1]:
+                            x[j].append((tmp << 1) + 1)
+            else:
+                for j in range(k, (k - (n - i)) - 1, -1):
+                    # 从上来+0
+                    # x[j] = [tmp << 1 for tmp in x[j]]
+                    for idx in range(len(x[j])):
+                        x[j][idx] = (x[j][idx] << 1)
+                    # 从左上来+1
+                    if j - 1 >= 0:
+                        # x[j] += [(tmp << 1) + 1 for tmp in x[j - 1]]
+                        for tmp in x[j - 1]:
+                            x[j].append((tmp << 1) + 1)
+        res = []
+        for tmp in x[-1]:
+            res.append([i + 1 for i in range(n) if (tmp >> i) & 1])
+        return res
+```
+
 
 
 #### [72. Edit Distance](https://leetcode.com/problems/edit-distance/)
