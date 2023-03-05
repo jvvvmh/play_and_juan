@@ -1,3 +1,77 @@
+
+
+#### [81. Search in Rotated Sorted Array II](https://leetcode.cn/problems/search-in-rotated-sorted-array-ii/)
+
+target num exists in the shifted sorted array (have duplicates)? worst $O(N)$ if all equal but no target.
+
+```python
+class Solution:
+    def search(self, nums: List[int], target: int) -> bool:
+
+        # 2 2 3 3 4 | 1 2 2
+
+        # 左边有多少个nums[0]
+        cnt1 = 0
+        for x in nums:
+            if x == nums[0]:
+                cnt1 += 1
+            else:
+                break
+
+        # 右边有多少个nums[0]
+        cnt2 = 0
+        for i in range(len(nums) - 1, cnt1 - 1, -1):
+            if nums[i] == nums[0]:
+                cnt2 += 1
+            else:
+                break
+
+        if cnt1 + cnt2 == len(nums):
+            return target == nums[0]
+
+        l = cnt1
+        r = len(nums) - cnt2 - 1
+        # from i to j, which one starts to < nums[0]?
+        offset = -1
+        while l <= r:
+            if l >= r - 1:
+                if nums[l] < nums[0]:
+                    offset = l
+                elif nums[r] < nums[0]:
+                    offset = r
+                break
+            if nums[l] < nums[0]:
+                offset = l
+            mid = (l + r) // 2
+            if nums[mid] > nums[0]:
+                l = mid + 1
+            else:
+                r = mid
+
+        if offset == -1: # 全都比nums[0]大
+            offset = len(nums) - cnt2
+
+        # search for target in original arr
+        l = 0
+        r = len(nums) - 1
+
+        def getOffsetIdx(i):
+            '''unshifted array idx => current idx'''
+            return (i + offset) % len(nums)
+
+        while l <= r:
+            mid = (l + r) // 2
+            if nums[getOffsetIdx(mid)] == target:
+                return True
+            elif nums[getOffsetIdx(mid)] > target:
+                r = mid - 1
+            else:
+                l = mid + 1
+        return False
+```
+
+
+
 #### [74. Search a 2D Matrix](https://leetcode.com/problems/search-a-2d-matrix/)
 
 每一行递增, 每一行比上一行增. 查找 target 是否存在.

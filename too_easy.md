@@ -1,3 +1,34 @@
+
+
+#### [80. Remove Duplicates from Sorted Array II](https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/)
+
+at most store 2
+
+```python
+class Solution:
+    def removeDuplicates(self, nums: List[int]) -> int:
+        prev = None
+        cnt = 0
+        k = 0
+        for ch in nums:
+            if ch != prev:
+                prev = ch
+                cnt = 1
+                nums[k] = ch
+                k += 1
+            else:
+                if cnt == 2:
+                    continue
+                # cnt == 1
+                cnt = 2
+                nums[k] = ch
+                k += 1
+        return k
+
+```
+
+
+
 #### [73. Set Matrix Zeroes](https://leetcode.com/problems/set-matrix-zeroes/)
 
 ```C++

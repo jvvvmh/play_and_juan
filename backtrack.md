@@ -1,5 +1,36 @@
 
 
+#### [79. Word Search](https://leetcode.cn/problems/word-search/)
+
+whether word exists in board.
+
+```python
+class Solution:
+    def exist(self, board: List[List[str]], word: str) -> bool:
+        m, n = len(board), len(board[0])
+        v = [[False] * n for _ in range(m)]
+        def f(i, j, depth):
+            if depth == len(word) - 1:
+                return True
+            v[i][j] = True
+            for dx, dy in [(0, 1), (0, -1), (-1, 0), (1, 0)]:
+                x, y = i + dx, j + dy
+                if 0 <= x and x < m and 0 <= y < n:
+                    if (not v[x][y]) and word[depth + 1] == board[x][y]:
+                        if f(x, y, depth + 1):
+                            return True
+            v[i][j] = False
+            return False
+        for i in range(m):
+            for j in range(n):
+                if board[i][j] == word[0]:
+                    if f(i, j, 0):
+                        return True
+        return False
+```
+
+
+
 #### [78. Subsets](https://leetcode.cn/problems/subsets/)
 
 ```python
