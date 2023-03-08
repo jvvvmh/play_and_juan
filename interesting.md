@@ -1,5 +1,48 @@
 [TOC]
 
+
+
+#### [2444. Count Subarrays With Fixed Bounds](https://leetcode.cn/problems/count-subarrays-with-fixed-bounds/)
+
+number of subarrays whose min=minK, max=maxK
+
+```python
+class Solution:
+    def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
+        # target 3->5
+        # 10 -1 3 4 5 3 -1 5 5 3
+        #       a   b a
+        #       leftMostAvailable
+        #                  b b a
+        #                  leftMostAvailable
+        res = 0
+        minIdx, maxIdx, leftMostAvailable = -1, -1, -1
+        for i in range(len(nums)):
+            if nums[i] == minK:
+                minIdx = i
+                if leftMostAvailable == -1:
+                    leftMostAvailable = i
+            if nums[i] == maxK:
+                maxIdx = i
+                if leftMostAvailable == -1:
+                    leftMostAvailable = i
+            
+            # above can be updated simutaneously, do not merge
+            if nums[i] < minK or nums[i] > maxK:
+                leftMostAvailable = -1
+                minIdx = -1
+                maxIdx = -1
+            else:
+                if leftMostAvailable == -1:
+                    leftMostAvailable = i
+                if minIdx != -1 and maxIdx != -1:
+                    res += min(minIdx, maxIdx) - leftMostAvailable + 1
+            
+        return res
+```
+
+
+
 #### [75. Sort Colors](https://leetcode.cn/problems/sort-colors/)
 
 sort a list of 0, 1, 2 in place
