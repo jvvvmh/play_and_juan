@@ -1,5 +1,29 @@
 
 
+#### [1539. Kth Missing Positive Number](https://leetcode.cn/problems/kth-missing-positive-number/)
+
+```
+Input: arr = [1,2,3,4], k = 2
+Output: 6
+```
+
+```python
+class Solution:
+    def findKthPositive(self, arr: List[int], k: int) -> int:
+        cnt = 0
+        prev = 0
+        for n in arr:
+            if (n - prev) - 1 + cnt >= k:
+                print("here")
+                return (k - cnt) + prev
+            else:
+                cnt += (n - prev) - 1
+            prev = n
+        return prev + k - cnt
+```
+
+
+
 #### [80. Remove Duplicates from Sorted Array II](https://leetcode.cn/problems/remove-duplicates-from-sorted-array-ii/)
 
 at most store 2

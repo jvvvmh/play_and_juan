@@ -2,6 +2,32 @@
 
 
 
+#### [2187. Minimum Time to Complete Trips](https://leetcode.cn/problems/minimum-time-to-complete-trips/)
+
+二分
+
+```python
+class Solution:
+    def minimumTime(self, time: List[int], totalTrips: int) -> int:
+        l = totalTrips // len(time) * min(time)
+        r = (totalTrips + len(time) - 1) // len(time) * max(time)
+        res = r
+        while l <= r:
+            mid = (l + r) // 2
+            cnt = 0
+            for i in range(len(time)):
+                cnt += mid // time[i]
+
+            if cnt >= totalTrips:
+                res = mid
+                r = mid - 1
+            else:
+                l = mid + 1
+        return res
+```
+
+
+
 #### [2444. Count Subarrays With Fixed Bounds](https://leetcode.cn/problems/count-subarrays-with-fixed-bounds/)
 
 number of subarrays whose min=minK, max=maxK
