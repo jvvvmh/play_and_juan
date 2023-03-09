@@ -2,6 +2,35 @@
 
 
 
+#### [86. Partition List](https://leetcode.cn/problems/partition-list/)
+
+linked list, <x, >=x, keep relative order in each group
+
+```python
+class Solution:
+    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
+        sHead = ListNode(0, head)
+        lHead = ListNode(0, head)
+        
+        i = head
+        currS = sHead
+        currL = lHead
+        while i:
+            if i.val < x:
+                currS.next = i
+                currS = currS.next
+            else:
+                currL.next = i
+                currL = currL.next
+            i = i.next
+        currL.next = None
+        currS.next = lHead.next
+        return sHead.next
+
+```
+
+
+
 #### [65. Valid Number](https://leetcode.cn/problems/valid-number/)  自动机
 
 at least one side of "." should be a digit
