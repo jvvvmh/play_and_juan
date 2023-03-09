@@ -1,5 +1,96 @@
 [TOC]
 
+#### [85. Maximal Rectangle](https://leetcode.cn/problems/maximal-rectangle/)
+
+$O(MN)$
+
+```python
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        m, n = len(matrix), len(matrix[0])
+        res = 0
+        h = [0 for _ in range(n)]
+        def f(h, l, r):
+            tmp = 0
+            stack = [l - 1]
+            for i in range(l, r + 1):
+                while stack[-1] != l - 1 and h[i] <= h[stack[-1]]:
+                    popIdx = stack[-1]
+                    popIdxLeft = stack[-2]
+                    popIdxRight = i
+                    tmp = max(tmp, (popIdxRight - popIdxLeft - 1) * h[popIdx])
+                    stack.pop(-1)
+                stack.append(i)
+            while stack[-1] != l - 1:
+                popIdx = stack[-1]
+                popIdxLeft = stack[-2]
+                popIdxRight = r + 1
+                # print(popIdxRight,  popIdxLeft)
+                tmp = max(tmp, (popIdxRight - popIdxLeft - 1) * h[popIdx])
+                stack.pop(-1)
+            # print(tmp)
+            return tmp
+
+        for i in range(m):
+            leftOne = -1
+            rightOne = -1
+            for j in range(n):
+                if matrix[i][j] == '1':
+                    if leftOne == - 1:
+                        leftOne = j
+                        rightOne = j
+                    else:
+                        rightOne = j
+                    h[j] += 1
+                    if j == n - 1:
+                        res = max(res, f(h, leftOne, rightOne))
+                else:
+                    h[j] = 0
+                    if leftOne != -1:
+                        res = max(res, f(h, leftOne, rightOne))
+                    leftOne = -1
+                    rightOne = -1
+        return res
+```
+
+
+
+#### [84. Largest Rectangle in Histogram](https://leetcode.cn/problems/largest-rectangle-in-histogram/) 单调栈
+
+left nearest smaller, right nearest higher
+
+```python
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        # -1 (2 1) 5 8 9 6
+        # -1  2 (2左边最小的idx是-1)
+        # -1  1 (1把2赶走)
+        # -1  1    5 8 9 here 6把89赶走, 89右边最近且小的就是6
+        # -1  1    5 6 剩下的右边都比自己大
+        
+        # 相等?
+        # (-1) 1(pop) 1 (-1)
+        stack = [-1]
+        # 进栈
+        res = 0
+        for i in range(len(heights)):
+            while stack[-1] != -1 and heights[i] <= heights[stack[-1]]:
+                popIdx = stack[-1]
+                popIdxLeft = stack[-2]
+                popIdxRight = i
+                res = max((popIdxRight - popIdxLeft - 1) * heights[popIdx], res)
+                stack.pop(-1)
+            stack.append(i)
+        while stack[-1] != -1:
+            popIdx = stack[-1]
+            popIdxLeft = stack[-2]
+            popIdxRight = len(heights)
+            # print(popIdxLeft, popIdxRight)
+            res = max((popIdxRight - popIdxLeft - 1) * heights[popIdx], res)
+            stack.pop()
+        return res
+```
+
 
 
 #### [2187. Minimum Time to Complete Trips](https://leetcode.cn/problems/minimum-time-to-complete-trips/)
