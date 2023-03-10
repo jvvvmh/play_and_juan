@@ -1,5 +1,32 @@
 [TOC]
 
+#### [87. Scramble String](https://leetcode.cn/problems/scramble-string/)
+
+```python
+class Solution:
+    def isScramble(self, s1: str, s2: str) -> bool:
+        @cache
+        def dfs(i1, i2, n):
+            if s1[i1: i1 + n] == s2[i2: i2 + n]:
+                return True
+            if Counter(s1[i1: i1 + n]) != Counter(s2[i2: i2 + n]):
+                return False
+            
+            for i in range(1, n):
+                # left i, right n - i
+                if dfs(i1, i2, i) and dfs(i1 + i, i2 + i, n - i):
+                    return True
+                # left i, right n - i ; left n - i, right i
+                if dfs(i1, i2 + n - i, i) and dfs(i1 + i, i2, n - i):
+                    return True
+            return False
+        res = dfs(0, 0, len(s1))
+        dfs.cache_clear()
+        return res
+```
+
+
+
 #### [85. Maximal Rectangle](https://leetcode.cn/problems/maximal-rectangle/)
 
 $O(MN)$
