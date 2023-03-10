@@ -1,6 +1,14 @@
 
 
+#### [89. Gray Code](https://leetcode.cn/problems/gray-code/)
 
+start with 0, adjacent integers differ by 1 bit, $[0, 2^n - 1]$
+
+- f(0)=[0]
+
+  000 001 ... 100 || 1100 ... 1001 1000 reverse, left+1
+
+- the $i^{th}$ grey number is $ i \oplus \lfloor \dfrac{i}{2} \rfloor$
 
 #### [88. Merge Sorted Array](https://leetcode.cn/problems/merge-sorted-array/) in place
 
