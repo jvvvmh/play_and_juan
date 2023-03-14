@@ -1,5 +1,39 @@
 
 
+#### [90. Subsets II](https://leetcode.cn/problems/subsets-ii/)
+
+power set of of `nums` which contain duplicates. solution set cannot contain duplicate subsets.
+
+first sort, then iterate over all possible 0 1 mask. $O(N \times 2^{N})$
+
+```
+class Solution:
+    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        # 2 2 2 2 3 3 
+        # 2
+        # 2 2 
+        # 2 2 2
+        # 2 2 2 2
+        # 如果前面的自己没选上, 自己也别上
+        nums.sort()
+        res = []
+        for mask in range(1 << len(nums)):
+            # bit 1 -> selected
+            tmp = []
+            ok = True
+            for i in range(len(nums)):
+                if mask & (1 << i):
+                    if i >= 1 and nums[i] == nums[i - 1] and not mask & (1 << (i - 1)):
+                        ok = False
+                        break
+                    tmp.append(nums[i])
+            if ok:
+                res.append(tmp)
+
+        return res
+                
+```
+
 
 
 #### [86. Partition List](https://leetcode.cn/problems/partition-list/)
