@@ -1,5 +1,43 @@
 
 
+#### [93. Restore IP Addresses](https://leetcode.cn/problems/restore-ip-addresses/)
+
+```python
+class Solution:
+    def restoreIpAddresses(self, s: str) -> List[str]:
+        res = []
+        tmp = []
+        def isValid255(x):
+            if len(x) > 1 and x[0] == '0':
+                return False
+            if x.isdigit():
+                return int(x) <= 255
+            return False
+            
+        def f(st, ed, l):
+            if st == ed or l == 0:
+                if st == ed and l == 0:
+                    res.append(".".join(tmp))
+                return 
+            avg = (ed - st) / l
+            if avg > 3:
+                return 0
+    
+            # 在 [st, ed) 中选一个位置 idx, [st: idx] ok, f([idx+1, ed], l-1)
+            for idx in range(st, min(st + 3, ed)):
+                if isValid255(s[st: idx + 1]):
+                    tmp.append(s[st: idx + 1])
+                    f(idx + 1, ed, l - 1)
+                    tmp.pop()
+
+            return
+
+        f(st=0, ed=len(s), l=4)
+        return res
+```
+
+
+
 #### [79. Word Search](https://leetcode.cn/problems/word-search/)
 
 whether word exists in board.

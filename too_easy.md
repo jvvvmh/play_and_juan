@@ -1,5 +1,41 @@
 
 
+#### [92. Reverse Linked List II](https://leetcode.cn/problems/reverse-linked-list-ii/)
+
+reverse the position from left to right
+
+```python
+class Solution:
+    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+        p = ListNode(val=0, next=head)
+        
+        prev, tmp = p, head
+        for i in range(left - 1):
+            prev = tmp
+            tmp = tmp.next
+        prevL = prev
+        l = tmp
+        
+
+        fwd = tmp.next
+        for j in range(right - left):
+            # prev tmp fwd
+            prev = tmp
+            tmp = fwd
+            fwd = fwd.next
+            tmp.next = prev
+        
+        r = tmp
+        prevL.next = r
+        l.next = fwd
+ 
+        return p.next
+```
+
+
+
+
+
 #### [1539. Kth Missing Positive Number](https://leetcode.cn/problems/kth-missing-positive-number/)
 
 ```
